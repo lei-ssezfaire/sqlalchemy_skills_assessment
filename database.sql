@@ -2,7 +2,7 @@ CREATE TABLE models (
     model_id SERIAL PRIMARY KEY,
     year INTEGER NOT NULL,
     brand_name VARCHAR(50) NULL,
-    name VARCHAR(50) NOT NULL
+    model_name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE brands (
@@ -12,6 +12,13 @@ CREATE TABLE brands (
     headquarters VARCHAR(50),
     discontinued INTEGER
 );
+
+CREATE TABLE model_brands (
+    model_brand_id SERIAL PRIMARY KEY,
+    model_id INTEGER NOT NULL REFERENCES models,
+    brand_id INTEGER NOT NULL REFERENCES brands
+);
+
 
 INSERT INTO brands (brand_name, founded, headquarters, discontinued)
 VALUES ('Ford', 1903, 'Dearborn, MI', NULL),
@@ -30,7 +37,7 @@ VALUES ('Ford', 1903, 'Dearborn, MI', NULL),
 ('Plymouth', 1928, 'Auburn Hills, Michigan', 2001),
 ('Tesla', 2003, 'Palo Alto, CA', NULL);
 
-INSERT INTO models (year, brand_name, name) VALUES
+INSERT INTO models (year, brand_name, model_name) VALUES
 (1909, 'Ford', 'Model T'),
 (1926, 'Chrysler', 'Imperial'),
 (1948, 'Citroën', '2CV'),
