@@ -57,7 +57,32 @@ class ModelBrand(db.Model):
 
 # End Part 1
 ##############################################################################
+# Query functions
+
+
+def get_model_info(year):
+    '''Takes in a year, and prints out each model, brand_name, and brand
+    headquarters for that year using only ONE database query.'''
+
+    models = Model.query.options(db.joinedload('brand')).filter(Model.year == year).all()
+
+    for model in models:
+        print model.model_name, model.brand_name, model.headquarters
+        
+
+def get_brands_summary():
+    '''Prints out each brand name, and each model name for that brand
+     using only ONE database query.'''
+
+    models = db.session.query(Model.brand_name, Model.model_name).order_by(Model.brand_name).all()
+
+    for brand_name, model_name in models:
+        print brand_name, model_name
+
+
+##############################################################################
 # Helper functions
+
 
 def init_app():
     # So that we can use Flask-SQLAlchemy, we'll make a Flask app
