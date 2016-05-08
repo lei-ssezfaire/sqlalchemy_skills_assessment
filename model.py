@@ -18,8 +18,9 @@ class Model(db.Model):
 
     model_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     year = db.Column(db.Integer, nullable=False)
-    brand_name = db.Column(db.String(50), db.ForeignKey('brands.brand_name'), nullable=False)
+    brand_name = db.Column(db.String(50))
     name = db.Column(db.String(50), nullable=False)
+    brand_id = db.Column(db.Integer, db.ForeignKey('brands.brand_id'))
 
     brand = db.relationship('Brand', backref='models')
 
@@ -28,8 +29,8 @@ class Brand(db.Model):
 
     __tablename__ = "brands"
 
-    brand_id = db.Column(db.Integer, autoincrement=True)
-    brand_name = db.Column(db.String(50), primary_key=True, nullable=False)
+    brand_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    brand_name = db.Column(db.String(50), nullable=False)
     founded = db.Column(db.Integer)
     headquarters = db.Column(db.String(50))
     discontinued = db.Column(db.Integer)
@@ -54,7 +55,7 @@ def connect_to_db(app):
 
     # Configure to use our SQLite database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///cars'
-    app.config['SQLALCHEMY_ECHO'] = True
+    app.config['SQLALCHEMY_ECHO'] = False
     db.app = app
     db.init_app(app)
 
