@@ -74,10 +74,23 @@ def get_brands_summary():
     '''Prints out each brand name, and each model name for that brand
      using only ONE database query.'''
 
+
     models = db.session.query(Model.brand_name, Model.model_name).order_by(Model.brand_name).all()
 
     for brand_name, model_name in models:
         print brand_name, model_name
+
+
+def search_brands_by_name(mystr):
+    """Function that takes a string and returns a list of objects that are brands whose name contains or is equal to that string"""
+
+    return Brand.query.filter( db.or_(Brand.brand_name == mystr, Brand.brand_name.like('%' + mystr + '%')) ).all()
+
+
+def get_models_between(start_year, end_year):
+    """Takes in start year and end year and returns list of objects that are models with years that fall between the start year and end year"""
+
+    return Model.query.filter(Model.year > start_year, Model.year < end_year).all()
 
 
 ##############################################################################
